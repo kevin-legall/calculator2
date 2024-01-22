@@ -1,21 +1,23 @@
 import React from 'react';
 import "./assets/styles/index.css";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
-import {Navbar} from "./displayModule/components/Navbar";
-import {CalculatriceLayout} from "./displayModule/layouts/CalculatriceLayout";
-import {HistoriqueLayout} from "./displayModule/layouts/HistoriqueLayout";
-import {ConvertisseurLayout} from "./displayModule/layouts/ConvertisseurLayout";
+import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
+import {NavbarComponent} from "./modules/displayModule/Navbar/Components/NavbarComponent";
+import {CalculatriceLayout} from "./layouts/calculatriceLayout/CalculatriceLayout";
+import {HistoriqueLayout} from "./layouts/historiqueLayout/HistoriqueLayout";
+import {ConvertisseurLayout} from "./layouts/convertisseurLayout/ConvertisseurLayout";
+
+// dependency injections
+import { NavigationManager } from "./modules/displayModule/Navbar/Services/NavigationManager";
 
 function App() {
   return (
       <BrowserRouter>
-        <Navbar />
+        <NavbarComponent navManager={ new NavigationManager() } />
         <Routes>
-          <Route path={"/"} element={<CalculatriceLayout />}></Route>
           <Route path={"/calculatrice"} element={<CalculatriceLayout />}></Route>
           <Route path={"/historique"} element={<HistoriqueLayout />}></Route>
           <Route path={"/convertisseur"} element={<ConvertisseurLayout />}></Route>
-          <Route path={"*"} element={<ConvertisseurLayout />}></Route>
+          <Route path={"*"} element={<Navigate to={"/calculatrice"} replace />}></Route>
         </Routes>
       </BrowserRouter>
   );
